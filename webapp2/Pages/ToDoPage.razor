@@ -1,0 +1,37 @@
+@page "/todo"
+@using webapp2.Model
+
+<h3>ToDo</h3>
+
+<ul>
+    @foreach (ToDoItem item in mItems)
+    {
+        <li>
+            <InputCheckbox @bind-value="item.Done"></InputCheckbox> @item.Text
+        </li>
+    }
+</ul>
+<InputText @bind-value="newToDoText" placeholder="Indtast ny to-do"></InputText>
+<button class="btn btn-primary" @onclick="Add">Add</button>
+
+
+
+@code {
+    List<ToDoItem> mItems;
+
+    string newToDoText;
+
+    protected override void OnInitialized()
+    {
+        mItems = new() { new ToDoItem { Text = "lektier" }, new ToDoItem { Text = "lave mad" } };
+        
+
+    }
+
+    private void Add()
+    {
+        ToDoItem newItem = new ToDoItem { Text = newToDoText };
+        mItems.Add(newItem);
+    }
+
+}
