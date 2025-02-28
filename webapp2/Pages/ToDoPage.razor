@@ -7,11 +7,11 @@
     @foreach (ToDoItem item in mItems)
     {
         <li>
-            <InputCheckbox @bind-value="item.Done"></InputCheckbox> @item.Text
+            <InputCheckbox @bind-value="item.Done" ></InputCheckbox> @item.Text
         </li>
     }
 </ul>
-<InputText @bind-value="newToDoText" placeholder="Indtast ny to-do"></InputText>
+<InputText @bind-value="newToDoText" placeholder="Indtast ny to-do" ></InputText>
 <button class="btn btn-primary" @onclick="Add">Add</button>
 
 
