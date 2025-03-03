@@ -1,0 +1,22 @@
+﻿@page "/id"
+
+<h3></h3>
+
+<InputDate @bind-Value="input" />
+
+<button @onclick="Check">Check</button>
+
+@code {
+
+    DateTime input = DateTime.Today;
+
+    void Check()
+    {
+        Console.WriteLine($"Check: input = {input}");
+
+    }
+
+}
+
+
+

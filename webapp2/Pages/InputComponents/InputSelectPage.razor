@@ -1,0 +1,27 @@
+﻿@page "/is"
+<h3>Component1</h3>
+
+<InputSelect @bind-Value="selectedOption" @oninput="OnInput">
+    @foreach (var anOption in options)
+    {
+        <option value="@anOption">Betal med @anOption</option>
+    }
+</InputSelect>
+@code {
+    string[] options = { "Mobile Pay", "Visa", "Master", "konto" };
+
+    string selectedOption = "";
+
+    protected override void OnInitialized()
+    {
+        selectedOption = options[0];
+    }
+
+    void OnInput(ChangeEventArgs e)
+    {
+        selectedOption = e.Value?.ToString() ?? "null";
+        Console.WriteLine($"OnInput: content = {selectedOption}");
+    }
+
+}
+

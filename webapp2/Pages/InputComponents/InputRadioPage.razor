@@ -1,0 +1,28 @@
+@page "/radio"
+@using System.Drawing
+
+
+<h3>Vælg en farve:</h3>
+
+
+<InputRadioGroup @bind-Value="@SelectedColor" class="form-control">
+    @foreach( var aColor in colors) 
+    {
+        <InputRadio checked Value=@aColor.htmlColor/> @aColor.textColor
+    }
+    
+</InputRadioGroup>
+
+<p><scan style="color: @SelectedColor; font-size: x-large;">Valgt farve: <strong>@SelectedColor</strong></scan>
+</p>
+@code {
+
+    private (string htmlColor, string textColor)[]  colors = { ("red","Rød"), ("blue", "Blå"), ("green", "Grøn") };
+    private string SelectedColor { get; set; } = "";
+
+    protected override void OnInitialized()
+    {
+        SelectedColor = colors[0].htmlColor;
+    }
+
+}

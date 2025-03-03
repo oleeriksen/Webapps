@@ -8,6 +8,7 @@
     {
         <li>
             <InputCheckbox @bind-value="item.Done" ></InputCheckbox> @item.Text
+            
         </li>
     }
 </ul>
@@ -32,6 +33,7 @@
     {
         ToDoItem newItem = new ToDoItem { Text = newToDoText };
         mItems.Add(newItem);
+        newToDoText = "";
     }
 
 }

@@ -1,0 +1,22 @@
+﻿@page "/in"
+
+<h3></h3>
+
+<InputNumber @bind-Value="input" />
+
+<button @onclick="Check">Check</button>
+
+@code {
+
+    int input;
+
+    void Check()
+    {
+        Console.WriteLine($"Check: input = {input}");
+        
+    }
+
+}
+
+
+

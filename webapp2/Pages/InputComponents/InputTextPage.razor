@@ -1,0 +1,32 @@
+﻿@page "/it"
+
+<h3></h3>
+
+<InputText @bind-Value="simpleInput"/>
+
+<InputText @bind-Value="input" @oninput="OnInput" />
+
+<button @onclick="Check">Check</button>
+
+@code {
+
+    string simpleInput = "";
+
+    string input = "";
+
+    void OnInput(ChangeEventArgs e)
+    {
+        input = e.Value.ToString();
+        Console.WriteLine($"OnInput: content = {input}");
+    }
+
+    void Check()
+    {
+        Console.WriteLine($"Check: simpleInput = {simpleInput}");
+        Console.WriteLine($"Check: input = {input}");
+        simpleInput = "after check";
+        input = "after check";
+    }
+
+}
+
