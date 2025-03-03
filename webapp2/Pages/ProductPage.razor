@@ -1,5 +1,6 @@
 @page "/product"
 @using webapp2.Model
+@inject NavigationManager nav
 
 <h1 class="mb-3 mt-3">Add Product</h1>
 
@@ -34,6 +35,8 @@
 
 <scan class="alert">@message</scan>
 
+<button @onclick="GoHome">Home</button>
+
 @code {
     
     private Product aProduct = new();
@@ -42,10 +45,16 @@
 
     private void HandleSubmit()
     {
-        //message = $"Product {aProduct.Name} is submitted...";
+        message = $"Product {aProduct.Name} is submitted...";
         Console.WriteLine(message);
         
     }
+
+    private void GoHome()
+    {
+        nav.NavigateTo("counter");
+    }
+
 }
 
 

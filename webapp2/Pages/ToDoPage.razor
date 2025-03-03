@@ -3,17 +3,31 @@
 
 <h3>ToDo</h3>
 
-<ul>
-    @foreach (ToDoItem item in mItems)
-    {
-        <li>
-            <InputCheckbox @bind-value="item.Done" ></InputCheckbox> @item.Text
-            
-        </li>
-    }
-</ul>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">IsDone?</th>
+            <th scope="col">What to do</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var todo in mItems)
+        {
+            <tr>
+                <td><InputCheckbox @bind-Value="todo.Done" /></td>
+                <td><InputText @bind-Value="todo.Text" /></td>
+                
+                <td>
+                    <scan class="bi bi-x-circle-fill" style="color:red; cursor:grab;" @onclick="() => DeleteItem(todo)"></scan>
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
 <InputText @bind-value="newToDoText" placeholder="Indtast ny to-do" ></InputText>
-<button class="btn btn-primary" @onclick="Add">Add</button>
+<button class="btn btn-primary" @onclick="() => Add()">Add</button>
 
 
 
@@ -35,5 +49,11 @@
         mItems.Add(newItem);
         newToDoText = "";
     }
+
+    private void DeleteItem(ToDoItem item)
+    {
+        mItems.Remove(item);
+    }
+
 
 }
