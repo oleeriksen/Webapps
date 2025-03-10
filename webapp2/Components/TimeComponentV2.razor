@@ -1,0 +1,44 @@
+<div class="top-corner">
+    <span class="fw-bold">Now: 
+        @if (ShowDate)
+        {
+            @currentTime.ToShortDateString()
+        }
+        @if (ShowDate && ShowTime)
+        {
+            <scan>&nbsp;-&nbsp;</scan>
+        }
+        @if (ShowTime)
+        {
+            @currentTime.ToLongTimeString()
+        }
+    </span>
+</div>
+@code {
+
+    [Parameter]
+    public bool ShowDate { get; set; } = true;
+
+    [Parameter]
+    public bool ShowTime { get; set; } = true;
+
+    DateTime currentTime = DateTime.Now;
+       
+    protected override async Task OnInitializedAsync()
+    {
+        await TimeTicker();
+    }
+       
+    async Task TimeTicker()
+    {
+        PeriodicTimer secondTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+
+        while (await secondTimer.WaitForNextTickAsync())
+        {
+            currentTime = DateTime.Now;
+            StateHasChanged(); // if not present - UI will not update
+    //Console.WriteLine(currentTime.ToLongTimeString());
+        }
+    }
+
+}

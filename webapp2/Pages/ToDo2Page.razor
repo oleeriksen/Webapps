@@ -1,0 +1,69 @@
+@page "/todo2"
+@using webapp2.Model
+@using webapp2.Components
+
+<h3>ToDo</h3>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">IsDone?</th>
+        <th scope="col">What to do</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var todo in mItems)
+    {
+        <tr>
+            <td><InputCheckbox @bind-Value="todo.Done" /></td>
+            <td><InputText @bind-Value="todo.Text" /></td>
+                
+            <td>
+                <scan class="bi bi-x-circle-fill" style="color:red; cursor:grab;" @onclick="() => DeleteItem(todo)"></scan>
+            </td>
+                
+        </tr>
+    }
+    </tbody>
+</table>
+<button onclick="@Open">Add</button>
+
+<ModalDialog @ref="@addToDoDialog" Title="Tilføj ny to-do">
+    <InputText @bind-value="newToDoText" placeholder="Indtast ny to-do" ></InputText>
+    <button class="btn btn-primary" @onclick="() => Add()">Add</button>
+</ModalDialog>
+
+
+
+@code {
+    List<ToDoItem> mItems;
+
+    string newToDoText;
+
+    ModalDialog? addToDoDialog { get; set; }
+
+    protected override void OnInitialized()
+    {
+        mItems = new() { new ToDoItem { Text = "lektier" }, new ToDoItem { Text = "lave mad" } };
+    }
+
+    private void Add()
+    {
+        ToDoItem newItem = new ToDoItem { Text = newToDoText };
+        mItems.Add(newItem);
+        newToDoText = "";
+        addToDoDialog.Close();
+    }
+
+    private void Open()
+    {
+        addToDoDialog.Open();
+    }
+    private void DeleteItem(ToDoItem item)
+    {
+        mItems.Remove(item);
+    }
+
+
+}

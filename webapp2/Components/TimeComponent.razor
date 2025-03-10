@@ -1,0 +1,31 @@
+
+    
+<div class="top-corner" style="background-color: @BackGroundColor">
+    <span class="fw-bold">Now: @currentTime.ToShortDateString(): @currentTime.ToLongTimeString()</span>
+</div>
+
+@code {
+
+    DateTime currentTime = DateTime.Now;
+
+    [Parameter] 
+    public string BackGroundColor { get; set; } = "red";
+
+    protected override void OnInitialized()
+       {
+           TimeTicker();
+       }
+       
+       async Task TimeTicker()
+       {
+           PeriodicTimer secondTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+
+           while (await secondTimer.WaitForNextTickAsync())
+           {
+               currentTime = DateTime.Now;
+               StateHasChanged(); // if not present - UI will not update
+               //Console.WriteLine(currentTime.ToLongTimeString());
+           }
+       }
+
+}
