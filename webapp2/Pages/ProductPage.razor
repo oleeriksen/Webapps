@@ -33,26 +33,23 @@
     </div>
 </EditForm>
 
-<scan class="alert">@message</scan>
-
-<button @onclick="GoHome">Home</button>
-
+<h2>List of Products</h2>
+<ul>
+@foreach (Product p in mProducts)
+{
+    <li>@p.Name, @p.Price kr, @p.Stock</li>   
+}
+</ul>
 @code {
     
     private Product aProduct = new();
 
-    private string message = "";
-
+    private List<Product> mProducts = new();
+    
     private void HandleSubmit()
     {
-        message = $"Product {aProduct.Name} is submitted...";
-        Console.WriteLine(message);
-        
-    }
-
-    private void GoHome()
-    {
-        nav.NavigateTo("counter");
+        mProducts.Add(aProduct);
+        aProduct = new();
     }
 
 }

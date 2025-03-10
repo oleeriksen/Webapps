@@ -1,39 +1,43 @@
 @page "/todo"
 @using webapp2.Model
+@using webapp2.Components
 
 <h3>ToDo</h3>
 
 <table class="table table-striped">
     <thead>
-        <tr>
-            <th scope="col">IsDone?</th>
-            <th scope="col">What to do</th>
-            <th scope="col">Delete</th>
-        </tr>
+    <tr>
+        <th scope="col">IsDone?</th>
+        <th scope="col">What to do</th>
+        <th scope="col">Delete</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var todo in mItems)
-        {
-            <tr>
-                <td><InputCheckbox @bind-Value="todo.Done" /></td>
-                <td><InputText @bind-Value="todo.Text" /></td>
+    @foreach (var todo in mItems)
+    {
+        <tr>
+            <td><InputCheckbox @bind-Value="todo.Done" /></td>
+            <td><InputText @bind-Value="todo.Text" /></td>
                 
-                <td>
-                    <scan class="bi bi-x-circle-fill" style="color:red; cursor:grab;" @onclick="() => DeleteItem(todo)"></scan>
-                </td>
+            <td>
+                <scan class="bi bi-x-circle-fill" style="color:red; cursor:grab;" @onclick="() => DeleteItem(todo)"></scan>
+            </td>
                 
-            </tr>
-        }
+        </tr>
+    }
     </tbody>
 </table>
+<button @onclick="Open">ADD</button>
+<ModalDialog @ref=@addDialog Title="TILFØJ">
 <InputText @bind-value="newToDoText" placeholder="Indtast ny to-do" ></InputText>
 <button class="btn btn-primary" @onclick="() => Add()">Add</button>
-
+</ModalDialog>
 
 
 @code {
     List<ToDoItem> mItems;
 
+    ModalDialog? addDialog { get; set; }
     string newToDoText;
 
     protected override void OnInitialized()
@@ -48,6 +52,7 @@
         ToDoItem newItem = new ToDoItem { Text = newToDoText };
         mItems.Add(newItem);
         newToDoText = "";
+        addDialog.Close();
     }
 
     private void DeleteItem(ToDoItem item)
@@ -55,5 +60,10 @@
         mItems.Remove(item);
     }
 
+
+    private void Open()
+    {
+        addDialog.Open();
+    }
 
 }
