@@ -1,0 +1,56 @@
+﻿@page "/addbike"
+@using Core
+@inject HttpClient Http
+
+
+<PageTitle>Add Bike</PageTitle>
+
+<h3>Add Bike</h3>
+
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-12 mb-3">
+        <label for="Brand">Brand</label>
+        <InputText id="Brand" @bind-Value="bike.Brand" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="Model">Model</label>
+        <InputText id="Model" @bind-Value="bike.Model" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Price">Price</label>
+        <InputNumber id="Price" @bind-Value="bike.Price" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="Img">Img Url</label>
+        <InputText id="Img" @bind-Value="bike.ImageUrl" class="form-control" />
+    </div>
+
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</EditForm>
+
+
+@code {
+    BEBike bike = new();
+
+    private EditContext aEditContext;
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(bike);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync<BEBike>("http://localhost:5284/api/bike", bike);
+
+        bike = new(); // clear fields in form
+
+    }
+
+}
+
+

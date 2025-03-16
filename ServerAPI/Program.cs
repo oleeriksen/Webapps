@@ -1,4 +1,6 @@
+using ServerAPI.Repositories;
 namespace ServerAPI;
+
 
 public class Program
 {
@@ -9,6 +11,7 @@ public class Program
         // Add services to the container.
 
         builder.Services.AddControllers();
+        builder.Services.AddSingleton<IBikeRepository, BikeRepositorySQLite>();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
 

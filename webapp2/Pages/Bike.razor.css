@@ -1,0 +1,14 @@
+﻿.bikeImg {
+    max-width:200px;
+    max-height: 200px;
+    border-radius: 20px;
+    background-color:lightgray;
+}
+
+.bikeRow:nth-child(odd) {
+    background-color: lightblue;
+}
+.bikeRow:nth-child(even) {
+    background-color: lightgray;
+}
+
