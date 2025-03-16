@@ -11,6 +11,14 @@ public class Program
         // Add services to the container.
 
         builder.Services.AddControllers();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("policy",
+                policy =>
+                {
+                    policy.AllowAnyOrigin();
+                });
+        });
         builder.Services.AddSingleton<IBikeRepository, BikeRepositorySQLite>();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
@@ -24,6 +32,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseCors("policy");
 
         app.UseAuthorization();
 
