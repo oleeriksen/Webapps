@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ServerAPI.Repositories;
 
 using Core;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ServerAPI.Controllers
 {
@@ -15,7 +9,6 @@ namespace ServerAPI.Controllers
     [Route("api/bike")]
     public class BikeController : ControllerBase
     {
-
         private IBikeRepository bikeRepo;
 
         public BikeController(IBikeRepository bikeRepo) {
@@ -28,15 +21,10 @@ namespace ServerAPI.Controllers
             return bikeRepo.GetAll();
         }
         
-
         [HttpPost]
         public void Add(BEBike bike) {
             bikeRepo.Add(bike);
         }
-        
-
-
-
     }
 }
 
