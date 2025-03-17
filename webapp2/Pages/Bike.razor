@@ -1,5 +1,6 @@
 ﻿@page "/bike"
 @inject HttpClient Http
+@inject NavigationManager navMan
 @using Core
 <PageTitle>Bike</PageTitle>
 
@@ -11,7 +12,7 @@
 }
 else
 {
-     
+    <button class="btn-primary" @onclick="NavigateToAdd">Add</button>
     <table class="table">
         
         <tbody> 
@@ -25,7 +26,7 @@ else
         }
         </tbody>
     </table>
-    
+    <button class="btn-primary" @onclick="NavigateToAdd">Add</button>
 }
 
 @code {
@@ -35,6 +36,11 @@ else
     protected override async Task OnInitializedAsync()
     {
         bikes = await Http.GetFromJsonAsync<BEBike[]>("http://localhost:5284/api/bike");
+    }
+
+    private void NavigateToAdd()
+    {
+        navMan.NavigateTo("addbike");
     }
 
 }

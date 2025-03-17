@@ -1,6 +1,7 @@
 ﻿@page "/addbike"
 @using Core
 @inject HttpClient Http
+@inject NavigationManager navMan
 
 
 <PageTitle>Add Bike</PageTitle>
@@ -48,6 +49,8 @@
         await Http.PostAsJsonAsync<BEBike>("http://localhost:5284/api/bike", bike);
 
         bike = new(); // clear fields in form
+        
+        navMan.NavigateTo("bike");
 
     }
 
