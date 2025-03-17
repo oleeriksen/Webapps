@@ -7,7 +7,7 @@ namespace ServerAPI.Repositories
 {
     public class BikeRepositorySQLite : IBikeRepository
     {
-        private const string connectionString = @"Data Source=//Users/ole/Data/bikes.db";
+        private const string connectionString = @"Data Source=//Users/oleeriksen/Data/bikes.db";
 
         public BikeRepositorySQLite()
         {
@@ -34,7 +34,7 @@ namespace ServerAPI.Repositories
                         var price = reader.GetInt32(4);
                         var imgUrl = reader.GetString(5);
 
-                        BEBike b = new BEBike { Brand = brand, Model = model, Description = desc, Price = price, ImageUrl = imgUrl };
+                        BEBike b = new BEBike { Id = id, Brand = brand, Model = model, Description = desc, Price = price, ImageUrl = imgUrl };
                         result.Add(b);
                     }
                 }

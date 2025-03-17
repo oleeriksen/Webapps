@@ -15,14 +15,14 @@ else
     <table class="table">
         
         <tbody> 
-            @foreach (var bike in bikes)
-            {
-                <tr class="bikeRow">
-                    <td><h2>@bike.Brand - @bike.Model</h2><br />
+        @foreach (var bike in bikes)
+        {
+            <tr class="bikeRow">
+                <td><h2>@bike.Brand - @bike.Model</h2><br />
                     Price: @bike.Price kr.</td>
-                    <td><img class="bikeImg" src="@bike.ImageUrl" width="200px"/></td>
-                </tr>
-            }
+                <td><img class="bikeImg" src="@bike.ImageUrl" width="200px"/></td>
+            </tr>
+        }
         </tbody>
     </table>
     
