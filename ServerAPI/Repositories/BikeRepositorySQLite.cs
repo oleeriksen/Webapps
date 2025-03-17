@@ -27,7 +27,6 @@ namespace ServerAPI.Repositories
                     while (reader.Read())
                     {
                         var id = reader.GetInt32(0);
-                        Console.WriteLine("Id=" + id);
                         var brand = reader.GetString(1);
                         var model = reader.GetString(2);
                         var desc = reader.GetString(3);
@@ -57,6 +56,7 @@ namespace ServerAPI.Repositories
                 command.ExecuteNonQuery();
             }
         }
+        
     }
 }
 

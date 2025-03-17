@@ -14,11 +14,13 @@
 .bi {
     display: inline-block;
     position: relative;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: auto;
+    height: auto;
     margin-right: 0.75rem;
     top: -1px;
     background-size: cover;
+    vertical-align: middle;
+    line-height: 1;
 }
 
 .bi-house-door-fill-nav-menu {
