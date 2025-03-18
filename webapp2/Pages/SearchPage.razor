@@ -3,10 +3,10 @@
 
 <h3>SearchPage</h3>
 
-@if (allWords != null)
+@if (viewedWords != null)
 {
     <ul>
-        @foreach (var w in allWords)
+        @foreach (var w in viewedWords)
         {
             <li>@w</li>
         }
@@ -17,19 +17,18 @@ else
     <p>waiting for words to be loaded...</p>
 }
 @code {
-    string[]? allWords;
+    string[]? viewedWords; // the words visible on the page
     
     protected override async Task OnInitializedAsync()
     {
-        var x = await LoadAllWords();
+        string[] wordsFromFile = await LoadAllWords();
         
-        allWords = x.Take(100).ToArray();
+        viewedWords = wordsFromFile.Take(100).ToArray();
     }
 
     private async Task<string[]> LoadAllWords()
     {
-        var content = await Http.GetStringAsync("sample-data/words.txt");
-        Thread.Sleep(10000);
+        string content = await Http.GetStringAsync("sample-data/words.txt");
         return content.Split("\n");
     }
 }
