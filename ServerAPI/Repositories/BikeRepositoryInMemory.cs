@@ -40,7 +40,12 @@ namespace ServerAPI.Repositories
             bike.Id = mBikes.Count + 1;
             mBikes.Add(bike);  
         }
-        
+
+        public void DeleteById(int id)
+        {
+            mBikes.RemoveAll((b) => b.Id == id);
+        }
+
         public BEBike[] GetAll()
         {
             return mBikes.ToArray();

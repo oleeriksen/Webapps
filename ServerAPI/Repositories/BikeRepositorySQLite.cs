@@ -56,7 +56,19 @@ namespace ServerAPI.Repositories
                 command.ExecuteNonQuery();
             }
         }
-        
+
+        public void DeleteById(int id)
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();  
+                var command = connection.CreateCommand();
+
+                command.CommandText = $"delete from Bike where Id = {id}";
+                command.ExecuteNonQuery();
+            }
+            
+        }
     }
 }
 

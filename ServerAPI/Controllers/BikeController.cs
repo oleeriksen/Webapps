@@ -25,6 +25,14 @@ namespace ServerAPI.Controllers
         public void Add(BEBike bike) {
             bikeRepo.Add(bike);
         }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public void DeleteById(int id)
+        {
+            Console.WriteLine($"Sletter cykel med id {id}");
+            bikeRepo.DeleteById(id);
+        }
     }
 }
 

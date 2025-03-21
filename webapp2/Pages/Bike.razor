@@ -22,6 +22,7 @@ else
                 <td><h2>@bike.Brand - @bike.Model</h2><br />
                     Price: @bike.Price kr.</td>
                 <td><img class="bikeImg" src="@bike.ImageUrl" width="200px"/></td>
+                <td><button class="btn-primary" @onclick="() => DeleteBike(bike)">Delete</button></td>
             </tr>
         }
         </tbody>
@@ -35,12 +36,25 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadAll();
+    }
+
+    private async Task LoadAll()
+    {
         bikes = await Http.GetFromJsonAsync<BEBike[]>("http://localhost:5284/api/bike");
     }
 
     private void NavigateToAdd()
     {
         navMan.NavigateTo("addbike");
+    }
+
+    private async Task DeleteBike(BEBike bike)
+    {
+        Console.WriteLine($"Fjerner cykel med id {bike.Id}");
+        await Http.DeleteAsync($"http://localhost:5284/api/bike/{bike.Id}");
+        await LoadAll();
+
     }
 
 }

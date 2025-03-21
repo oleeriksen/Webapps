@@ -6,6 +6,7 @@ namespace ServerAPI.Repositories
 	{
 		BEBike[] GetAll();
 		void Add(BEBike bike);
+		void DeleteById(int id);
 	}
 }
 
