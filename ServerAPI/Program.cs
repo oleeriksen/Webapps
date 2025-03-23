@@ -21,7 +21,7 @@ public class Program
                     policy.AllowAnyHeader();
                 });
         });
-        builder.Services.AddSingleton<IBikeRepository, BikeRepositorySQLite>();
+        builder.Services.AddSingleton<IBikeRepository, BikeRepositoryMongoDB>();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
 
