@@ -6,15 +6,17 @@ namespace ServerAPI.Repositories;
 public class BikeRepositoryMongoDB:IBikeRepository
 {
     private IMongoClient client;
-        private IMongoCollection<BEBike> collection;
+        
+    private IMongoCollection<BEBike> bikeCollection;
 
-        public BikeRepositoryMongoDB()
-		{
-            var password = ""; //add
-            var mongoUri = $"mongodb+srv://olee58:{password}@cluster0.olmnqak.mongodb.net/?retryWrites=true&w=majority";
-
+    public BikeRepositoryMongoDB() {
+            // atlas database
+            //var password = ""; //add
+            //var mongoUri = $"mongodb+srv://olee58:{password}@cluster0.olmnqak.mongodb.net/?retryWrites=true&w=majority";
+           
+            //local mongodb
+            var mongoUri = "mongodb://localhost:27017/";
             
-
             try
             {
                 client = new MongoClient(mongoUri);
@@ -25,63 +27,63 @@ public class BikeRepositoryMongoDB:IBikeRepository
                     "Atlas cluster. Check that the URI includes a valid " +
                     "username and password, and that your IP address is " +
                     $"in the Access List. Message: {e.Message}");
-                Console.WriteLine(e);
-                Console.WriteLine();
-                return;
-            }
+            throw; }
 
             // Provide the name of the database and collection you want to use.
-            // If they don't already exist, the driver and Atlas will create them
-            // automatically when you first write data.
             var dbName = "myDatabase";
             var collectionName = "bike";
 
-            collection = client.GetDatabase(dbName)
+            bikeCollection = client.GetDatabase(dbName)
                .GetCollection<BEBike>(collectionName);
-
         }
 
-        public void Add(BEBike item)
-        {
+        public void Add(BEBike item) {
             var max = 0;
-            if (collection.Count(Builders<BEBike>.Filter.Empty) > 0)
+            if (bikeCollection.Count(Builders<BEBike>.Filter.Empty) > 0)
             {
-                max = collection.Find(Builders<BEBike>.Filter.Empty).SortByDescending(r => r.Id).Limit(1).ToList()[0].Id;
+                max = MaxId();
             }
             item.Id = max + 1;
             // alternative:
             //int newid = Guid.NewGuid().GetHashCode();
             //item.Id = newid;
-            collection.InsertOne(item);
+            bikeCollection.InsertOne(item);
            
         }
 
+        private int MaxId() {
+            /*var noFilter = Builders<BEBike>.Filter.Empty;
+            var elementWithHighestId = collection.Find(noFilter).SortByDescending(r => r.Id).Limit(1).ToList()[0];
+            return elementWithHighestId.Id;*/
+            return GetAll().Select(b => b.Id).Max();
+
+        }
+
         public void DeleteById(int id){
-            var deleteResult = collection
+            var deleteResult = bikeCollection
                 .DeleteOne(Builders<BEBike>.Filter.Where(r => r.Id == id));
         }
 
-        public BEBike[] GetAll()
-        {
-           return collection.Find(Builders<BEBike>.Filter.Empty).ToList().ToArray();
+        public BEBike[] GetAll() {
+            var noFilter = Builders<BEBike>.Filter.Empty;
+           return bikeCollection.Find(noFilter).ToList().ToArray();
         }
 
-        /*public BEBike[] GetAllByShop(string brand)
-        {
-            var filter = Builders<BEBike>.Filter.Where(r => r.Brand.Equals(brand));
-            return collection.Find(filter).ToList().ToArray();
+        public BEBike[] GetAllByShop(string brand) {
+            var brandFilter = Builders<BEBike>.Filter.Where(r => r.Brand.Equals(brand));
+            return bikeCollection.Find(brandFilter).ToList().ToArray();
 
-        }*/
+        }
 
-        public void UpdateItem(BEBike item)
-        {
-            /*
+        public void Update(BEBike item) {
             var updateDef = Builders<BEBike>.Update
-                 .Set(x => x.Amount, item.Amount)
-                 .Set(x => x.Description, item.Description)
-                 .Set(x => x.Done, item.Done);
-            collection.UpdateOne(x => x.Id == item.Id, updateDef);
-            */
+                 .Set(x => x.Brand, item.Brand)
+                 .Set(x => x.Model, item.Model)
+                 .Set(x => x.Price, item.Price)
+                 .Set(x=> x.Description, item.Description)
+                 .Set(x=>x.ImageUrl, item.ImageUrl);
+            bikeCollection.UpdateOne(x => x.Id == item.Id, updateDef);
+            
         }
  
 }
