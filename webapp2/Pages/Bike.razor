@@ -32,6 +32,7 @@ else
 
 @code {
 
+    private string serverUrl = "http://localhost:5284/";
     private BEBike[]? bikes;
 
     protected override async Task OnInitializedAsync()
@@ -41,7 +42,7 @@ else
 
     private async Task LoadAll()
     {
-        bikes = await Http.GetFromJsonAsync<BEBike[]>("http://localhost:5284/api/bike");
+        bikes = await Http.GetFromJsonAsync<BEBike[]>($"{serverUrl}api/bike");
     }
 
     private void NavigateToAdd()
@@ -52,7 +53,7 @@ else
     private async Task DeleteBike(BEBike bike)
     {
         Console.WriteLine($"Fjerner cykel med id {bike.Id}");
-        await Http.DeleteAsync($"http://localhost:5284/api/bike/{bike.Id}");
+        await Http.DeleteAsync($"{serverUrl}api/bike/{bike.Id}");
         await LoadAll();
 
     }
