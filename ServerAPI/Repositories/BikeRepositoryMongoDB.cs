@@ -75,13 +75,14 @@ public class BikeRepositoryMongoDB:IBikeRepository
 
         }
 
-        public void Update(BEBike item) {
+        public void Update(BEBike item)
+        {
             var updateDef = Builders<BEBike>.Update
-                 .Set(x => x.Brand, item.Brand)
-                 .Set(x => x.Model, item.Model)
-                 .Set(x => x.Price, item.Price)
-                 .Set(x=> x.Description, item.Description)
-                 .Set(x=>x.ImageUrl, item.ImageUrl);
+                .Set(x => x.Brand, item.Brand)
+                .Set(x => x.Model, item.Model)
+                .Set(x => x.Price, item.Price)
+                .Set(x => x.Description, item.Description)
+                .Set(x => x.ImageUrl, item.ImageUrl);
             bikeCollection.UpdateOne(x => x.Id == item.Id, updateDef);
             
         }
