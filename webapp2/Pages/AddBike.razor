@@ -1,6 +1,7 @@
 ﻿@page "/addbike"
 @using Core
-@inject HttpClient Http
+@using webapp2.Service
+@inject IBikeService mService
 @inject NavigationManager navMan
 
 
@@ -35,6 +36,7 @@
 
 
 @code {
+    
     BEBike bike = new();
 
     private EditContext aEditContext;
@@ -42,12 +44,13 @@
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(bike);
+        
     }
 
     public async Task HandleValidSubmit()
     {
-        await Http.PostAsJsonAsync<BEBike>("http://localhost:5284/api/bike", bike);
-
+        mService.Add(bike);
+        
         bike = new(); // clear fields in form
         
         navMan.NavigateTo("bike");

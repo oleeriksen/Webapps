@@ -1,7 +1,8 @@
 ﻿@page "/bike"
-@inject HttpClient Http
+@inject IBikeService mService
 @inject NavigationManager navMan
 @using Core
+@using webapp2.Service
 <PageTitle>Bike</PageTitle>
 
 <h1>Bikes</h1>
@@ -31,8 +32,7 @@ else
 }
 
 @code {
-
-    private string serverUrl = "http://localhost:5284/";
+    
     private BEBike[]? bikes;
 
     protected override async Task OnInitializedAsync()
@@ -42,7 +42,7 @@ else
 
     private async Task LoadAll()
     {
-        bikes = await Http.GetFromJsonAsync<BEBike[]>($"{serverUrl}api/bike");
+        bikes = await mService.GetAll();
     }
 
     private void NavigateToAdd()
@@ -52,8 +52,7 @@ else
 
     private async Task DeleteBike(BEBike bike)
     {
-        Console.WriteLine($"Fjerner cykel med id {bike.Id}");
-        await Http.DeleteAsync($"{serverUrl}api/bike/{bike.Id}");
+        await mService.DeleteById(bike.Id);
         await LoadAll();
 
     }

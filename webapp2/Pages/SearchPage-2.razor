@@ -1,0 +1,92 @@
+﻿@page "/search2"
+@inject HttpClient Http
+
+<h3>SearchPage</h3>
+<!-- Hej Ole,
+Hermed min besvarelse, som jeg har lavet alene, da jeg ikke var på toppen i dag og dermed ikke i skole.
+
+Jeg har ikke brugt tid på styling, men har øvet mig lidt på LINQ til at besvare "filtrerings" opgaven (del2).
+God weekend
+-->
+
+
+<InputText placeholder="Input ord" @bind-Value="inputWord"></InputText>
+<button @onclick="() => StartWords(inputWord)">Starter med</button>
+<button @onclick="() => ContainWords(inputWord)">Indeholder</button>
+
+@if (viewedWords != null)
+{
+    <p>I alt @viewedWords.Length ord der passer på din søgning:</p>
+    <ul>
+        <!-- Take tager counter som paramter. 
+        Counter er vores tællevariabel og bruges til at nemt holde styr på, hvor "langt" vi er. -->
+        @foreach (var w in viewedWords.Take(counter))
+        {
+            <li>@w</li>
+        }
+        
+        @if (viewedWords.Length > counter)
+        {
+            <button @onclick="GenerateMore">Flere...</button>
+        }
+    </ul>
+}
+else
+{
+    <p>Venligst angiv et input ord og tryk på knap :))</p>
+}
+
+
+@code {
+
+    int counter; //number of words to show
+    
+    string? inputWord;
+    
+    string[]? viewedWords; // the words visible on the page
+
+    string[]? allWords; // all words from file
+    
+
+    private async Task<string[]> LoadAllWords()
+    {
+        if (allWords != null)
+            return allWords;
+        string content = await Http.GetStringAsync("sample-data/words.txt");
+        return content.Split("\n");
+    }
+    
+    private async Task ContainWords(string input)
+    {
+        allWords = await LoadAllWords();
+
+        //x.Contains returner sand, hvis x indeholder input
+        //var wordsContain = allWords.Where(x => x.Contains(input)).ToArray();
+
+        List<string> wordsContain = new();
+        foreach (string x in allWords)
+            if (x.Contains(input))
+                wordsContain.Add(x);
+        
+        viewedWords = wordsContain.ToArray();
+        counter = 10; 
+    }
+
+    private async Task StartWords(string input)
+    {
+        
+        allWords = await LoadAllWords();
+        
+        //x.StartsWith returner sand hvis det starter med input
+        var wordStarts = allWords.Where(x => x.StartsWith(input)).ToArray();
+
+        viewedWords = wordStarts;
+        counter = 10; 
+    }
+
+    private void GenerateMore()
+    {
+        counter += 10; 
+    }
+
+}
