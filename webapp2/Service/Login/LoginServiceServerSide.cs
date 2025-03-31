@@ -18,7 +18,7 @@ public class LoginServiceServerSide : LoginServiceClientSide
 
     protected override async Task<bool> Validate(string username, string password)
     {
-        User user = new User() { UserName = username, Password = password , Role= new Role{Id=0, Name = "admin"}};
+        User user = new User() { UserName = username, Password = password , Role= "admin"};
         var res = await http.PostAsJsonAsync<User>($"{serverUrl}/api/login/validate", user);
         var body = await res.Content.ReadAsStringAsync();
         return body.Equals("true");
