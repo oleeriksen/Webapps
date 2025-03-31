@@ -26,9 +26,20 @@ public class LoginServiceClientSide : ILoginService  {
         return false;
     }
 
+    private List<User> users = new List<User>()
+    {
+        new User { Id = 1, UserName = "rip",Password = "1234", Role = "admin"},
+        new User {Id=2, UserName = "rap", Password = "4321", Role = "admin"},
+        new User {Id = 3, UserName = "rup", Password = "qwerty", Role="member"}
+    };
     protected virtual async Task<bool> Validate(string username, string password)
     {
-        return username.Equals("peter") && password.Equals("1234");
+        foreach (User u in users)
+
+            if (username.Equals(u.UserName) && password.Equals(u.Password))
+                return true;
+
+        return false;
     }
 }
 
