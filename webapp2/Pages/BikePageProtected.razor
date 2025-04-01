@@ -1,0 +1,70 @@
+@page "/bikeprotected"
+@inject IBikeService mService
+@inject ILoginService mlogin
+@inject NavigationManager navMan
+@using Core
+@using webapp2.Service
+@using WebApp2.Service.Login
+<PageTitle>Bike</PageTitle>
+
+<h1>Bikes</h1>
+
+@if (bikes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        
+        <tbody> 
+        @foreach (var bike in bikes)
+        {
+            <tr class="bikeRow">
+                <td><h2>@bike.Brand - @bike.Model</h2><br />
+                    Price: @bike.Price kr.</td>
+                <td><img class="bikeImg" src="@bike.ImageUrl" width="200px"/></td>
+                <td><button class="btn-primary" @onclick="() => DeleteBike(bike)">Delete</button></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    @if (currentUser != null && currentUser.Role.Equals("admin"))
+    {
+        <button class="btn-primary" @onclick="NavigateToAdd">Add</button>
+    }
+}
+
+@code {
+    
+    private BEBike[]? bikes;
+
+    User? currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentUser = await mlogin.GetUserLoggedIn();
+        if (currentUser == null)
+            navMan.NavigateTo("login/bikeprotected");
+        
+        await LoadAll();
+    }
+
+    private async Task LoadAll()
+    {
+        bikes = await mService.GetAll();
+    }
+
+    private void NavigateToAdd()
+    {
+        navMan.NavigateTo("addbike");
+    }
+
+    private async Task DeleteBike(BEBike bike)
+    {
+        await mService.DeleteById(bike.Id);
+        await LoadAll();
+
+    }
+
+}

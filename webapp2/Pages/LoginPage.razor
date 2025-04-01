@@ -1,0 +1,50 @@
+@page "/login/{target:alpha}"
+@using WebApp2.Service.Login
+@inject ILoginService loginService
+@inject NavigationManager navManager
+
+
+<h3>Login</h3>
+<div class="row justify-content-center">
+    <div class="col-md-6 mb-3">
+        <label for="username">Brugernavn:</label>
+        <InputText id="username" @bind-Value="username" 
+                   placeholder="Indtast brugernavn..." class="form-control" />
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-6 mb-3">
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="password" 
+                   placeholder="Indtast password..." class="form-control" />
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-6 mb-3">
+        <div class="d-flex justify-content-end">
+        <button @onclick="OnClickLogin" class="btn btn-primary">Login</button>
+        </div>
+            </div>
+<scan style="color: red">@errorText</scan>
+</div>
+@code {
+    string username = "";
+    string password = "";
+    string errorText = "";
+
+    [Parameter] public string target { get; set; } = "";
+
+    private async Task OnClickLogin()
+    {
+       var success =  await loginService.Login(username, password);
+        if (success)
+        {
+            navManager.NavigateTo(target);
+        }
+        else
+        {
+            errorText = "Bad combination ... try again";
+        }
+    }    
+
+}
