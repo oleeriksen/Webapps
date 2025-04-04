@@ -1,0 +1,20 @@
+@page "/if"
+<h3></h3>
+
+<InputFile OnChange="@SingleUpload" />
+
+
+<p>@info</p>
+
+@code {
+
+    string info = "";
+
+    private async Task SingleUpload(InputFileChangeEventArgs e)
+    {
+        MemoryStream ms = new MemoryStream();
+        await e.File.OpenReadStream().CopyToAsync(ms);
+        var bytes = ms.ToArray();
+        info = $"Filen fylder {bytes.Length} bytes";
+    }
+}
